@@ -1,0 +1,76 @@
+//linked list
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node* next;
+};
+struct node* head = NULL;
+void insertNode(int n){
+	int i, data;
+	struct node *newNode, *temp;
+	head = NULL;
+	for(i=1;i<=n;i++){
+		newNode=(struct node*)malloc(sizeof(struct node));
+		if(newNode == NULL){
+			printf("Memory allocation failed\n");
+			exit(1);
+		}
+		printf("enter the data of %dth node\n",i);
+		scanf("%d", &data);
+		newNode->data = data;
+		newNode->next = NULL;
+		if(head == NULL){
+			head = newNode;
+			temp = newNode;
+		}else{
+			temp->next = newNode;
+			temp = temp->next;
+		}
+	}
+}
+void insert_at_the_beginning(int value){
+	struct node* newNode;
+	newNode = (struct node*)malloc(sizeof(struct node));
+	if(newNode == NULL){
+		printf("Memory allocation failed\n");
+		exit(1);
+	}
+	newNode->data = value;
+	newNode->next = head;
+	head = newNode;
+}
+void delete_from_beginning(){
+	struct node* temp;
+	if(head == NULL){
+		printf("linked list is empty");
+		return;
+	}
+	temp = head;
+	head = head->next;
+	free(temp);
+}
+void printList(){
+	struct node* temp = head;
+	printf("linked list:\n");
+	while(temp != NULL){
+		printf("%d\t",temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+}
+int main(){
+	int n, value;
+	printf("enter the size of linked list:\n");
+	scanf("%d",&n);
+	insertNode(n);
+	printList();
+	printf("Enter the value to insert at the beginning: ");
+	scanf("%d",&value);
+	insert_at_the_beginning(value);
+	printList();
+	printf("\n first node deleted successfully!");
+	delete_from_beginning();
+	printList();
+	return 0;
+}
