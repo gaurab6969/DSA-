@@ -1,0 +1,161 @@
+/* Create a linked list and perform the following-
+1. Insert node(atleast 10)
+2. Insert at the beginning of the list
+3. Insert at any position
+4. Delete from the beginning of the list
+5. Delete from any position of the list       */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insertNode(int n) {
+    int i, data;
+    struct node *newNode, *temp;
+    head = NULL;
+    for(i = 1; i <= n; i++) {
+        newNode = (struct node*)malloc(sizeof(struct node));
+        if(newNode == NULL) {
+            printf("Memory allocation failed\n");
+            exit(1);
+        }
+        printf("Enter the data of %dth node\n", i);
+        scanf("%d", &data);
+        newNode->data = data;
+        newNode->next = NULL;
+        if(head == NULL) {
+            head = newNode;
+            temp = newNode;
+        } else {
+            temp->next = newNode;
+            temp = temp->next;
+        }
+    }
+}
+
+void insertAtTheBeginning(int value) {
+    struct node *newNode;
+    newNode = (struct node*)malloc(sizeof(struct node));
+    if(newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+}
+
+void insertAtAnyPos(int pos, int val) {
+    struct node *newNode, *temp, *pre;
+    int i;
+    newNode = (struct node*)malloc(sizeof(struct node));
+    if(newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    newNode->data = val;
+    temp = head;
+    if(pos == 1) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+    for(i = 1; i < pos && temp != NULL; i++) {
+        pre = temp;
+        temp = temp->next;
+    }
+    if(temp == NULL && i < pos) {
+        printf("Position not found.\n");
+        return;
+    }
+    pre->next = newNode;
+    newNode->next = temp;
+}
+
+void deleteFromBeginning() {
+    struct node *temp;
+    if(head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    temp = head;
+    head = head->next;
+    free(temp);
+}
+
+void deleteFromAnyPos(int pos) {
+    struct node *temp, *pre;
+    int i;
+    if(head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    temp = head;
+    if(pos == 1) {
+        head = temp->next;
+        free(temp);
+        return;
+    }
+    for(i = 1; i < pos && temp != NULL; i++) {
+        pre = temp;
+        temp = temp->next;
+    }
+    if(temp == NULL) {
+        printf("Position not found.\n");
+        return;
+    }
+    pre->next = temp->next;
+    free(temp);
+}
+
+void printList() {
+    struct node* temp = head;
+    printf("Linked list: ");
+    while(temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    int n, value, pos, val;
+    
+    // Create Node
+    printf("Enter the number of elements in the linked list: \n");
+    scanf("%d", &n);
+    insertNode(n);
+    printList();
+    
+    // Insert Node at the beginning
+    printf("\nEnter the value of the node you want to insert at the beginning:\n");
+    scanf("%d", &value);
+    insertAtTheBeginning(value);
+    printList();
+    
+    // Insert Node at any position
+    printf("\nEnter the position of the node you want to insert: \n");
+    scanf("%d", &pos);
+    printf("Enter the value of the node: \n");
+    scanf("%d", &val);
+    insertAtAnyPos(pos, val);
+    printList();
+    
+    // Delete Node from the beginning
+    deleteFromBeginning();
+    printList();
+    
+    // Delete Node from any position
+    printf("\nEnter the position of the node you want to delete: \n");
+    scanf("%d", &pos);
+    deleteFromAnyPos(pos);
+    printList();
+    
+    return 0;
+}
