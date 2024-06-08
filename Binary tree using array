@@ -1,0 +1,43 @@
+//Binary tree using array
+#include<stdio.h>
+int completeNode = 15;
+char tree[] = {'D','A','F','C','B'};
+int getLeftChild(int index){
+		return(2*index)+1;
+}
+
+int getRightChild(int index){
+		return (2*index)+2;
+	}
+
+	void preorder(int index){
+		if(index<=5 && tree[index]!='\0'){
+			printf("%c\t", tree[index]);
+			preorder(getLeftChild(index));
+			preorder(getRightChild(index));
+		}
+	}
+	void postorder (int index){
+		if(index<=5 && tree[index]!='\0'){
+			postorder(getLeftChild(index));
+			postorder(getRightChild(index));
+			printf("%c\t",tree[index]);
+		}
+	}
+	void inorder(int index){
+		if(index<=5 && tree[index]!='\0'){
+		inorder(getLeftChild(index));
+		inorder(getRightChild(index));
+		printf("%c\t",tree[index]);
+	}
+}
+int main(){
+	printf("Preorder:\n");
+	preorder(0);
+	printf("\nPostorder:\n");
+	postorder(0);
+	printf("\nInorder:\n");
+	inorder(0);
+	
+	return 0;
+}
