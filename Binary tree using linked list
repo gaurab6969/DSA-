@@ -1,0 +1,79 @@
+//Binary search using linked list
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	char data;
+	struct node *right_child;
+	struct node *left_child;
+}; 
+struct node *new_node(char data){
+	struct node *p;
+	p=malloc(sizeof(struct node));
+	p->data = data;
+	p->left_child = NULL;
+	p->right_child = NULL;
+	
+	return (p);
+}
+
+void preorder(struct node *root){
+	if(root!=NULL){
+		preorder(root->left_child);
+		printf("%d\t",root->data);
+		preorder(root->right_child);
+	}
+}
+
+void postorder(struct node *root){
+	if(root!=NULL){
+		postorder(root->left_child);
+		postorder(root->right_child);
+		printf("%d\t",root->data);
+	}
+}
+
+void inorder(struct node *root){
+	if(root!=NULL){
+		printf("%d\t",root->data);
+		inorder(root->left_child);
+		inorder(root->right_child);
+	}
+}
+
+int is_leaf(struct node *a){
+	if(a->right_child==NULL && a->left_child==NULL){
+		return 1;
+	}
+	return 0;
+}
+
+int get_max(int a, int b){
+	return(a>b) ? a:b;
+}
+
+int get_height(struct node *a){
+	if(a == NULL || is_leaf(a)){
+		return 0;
+	}
+	return(get_max(get_height(a->left_child),get_height(a->right_child))+1);
+}
+
+int main(){
+	struct node *root;
+	root = new_node(1);
+	root->left_child = new_node(2);
+	root->right_child = new_node(3);
+	root->left_child->left_child = new_node(4);
+	root->left_child->right_child = new_node(5);
+	root->right_child->right_child = new_node(6);
+	
+	
+	printf("\n Preorder:\t");
+	preorder(root);
+	printf("\n Postorder:\t");
+	postorder(root);
+	printf("\n Inorder:\t");
+	inorder(root);
+
+	return 0;
+}
